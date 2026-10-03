@@ -1,0 +1,53 @@
+--progress is a global compose flag, better use `docker compose --progress xx build ...
+#1 [internal] load local bake definitions
+#1 reading from stdin 601B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 949B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12.7-slim-bookworm
+#3 DONE 0.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 251B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.17kB done
+#5 DONE 0.0s
+
+#6 [1/6] FROM docker.io/library/python:3.12.7-slim-bookworm@sha256:60d9996b6a8a3689d36db740b49f4327be3be09a21122bd02fb8895abb38b50d
+#6 resolve docker.io/library/python:3.12.7-slim-bookworm@sha256:60d9996b6a8a3689d36db740b49f4327be3be09a21122bd02fb8895abb38b50d done
+#6 DONE 0.0s
+
+#7 [2/6] WORKDIR /app
+#7 CACHED
+
+#8 [3/6] RUN useradd --create-home --uid 1000 appuser
+#8 CACHED
+
+#9 [4/6] COPY requirements.txt .
+#9 CACHED
+
+#10 [5/6] RUN pip install -r requirements.txt
+#10 CACHED
+
+#11 [6/6] COPY --chown=appuser:appuser . .
+#11 DONE 0.0s
+
+#12 exporting to image
+#12 exporting layers 0.0s done
+#12 exporting manifest sha256:c1b6fbd652f3855030f8defc98d86ca5ed6517100c1c88d7c87eae6450bb3d55 done
+#12 exporting config sha256:e9965b7231d52261556bdfe2f179a233b007a50ea1f0b31ef19dd59965bf399d done
+#12 exporting attestation manifest sha256:bfa632c0c77fd0a0ae54c5da78be30010d425ccb50a7afd3f41805247b0e9e2e done
+#12 exporting manifest list sha256:da5f13c3ff701fabf0ecebdc4804f840c768f7e22669e4d9547eedd0f1c10328 done
+#12 naming to docker.io/library/tasks-web:1.0 done
+#12 unpacking to docker.io/library/tasks-web:1.0 done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ tasks-web:1.0  Built
+docker compose build --progress=plain web  0.15s user 0.09s system 42% cpu 0.564 total

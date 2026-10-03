@@ -1,0 +1,26 @@
+# 1. Image de base officielle, tag figé (version Python + variante + distribution Debian)
+FROM python:3.12.7-bookworm
+
+# 2. Réglages Python : pas de .pyc, logs non bufferisés, pas de cache pip
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+WORKDIR /app
+
+# 3. Utilisateur non-root (change rarement -> couche stable)
+RUN useradd --create-home --uid 1000 appuser
+
+# 4. Dépendances AVANT le code : cette couche reste en cache tant que requirements.txt ne change pas
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# 5. Code applicatif (le plus volatil) en dernier
+COPY --chown=appuser:appuser . .
+
+USER appuser
+EXPOSE 8000
+
+# 6. Forme exec (tableau JSON) : gunicorn est le PID 1 et reçoit directement SIGTERM
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--preload", "--access-logfile", "-", "app:app"]

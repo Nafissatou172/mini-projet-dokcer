@@ -1,0 +1,55 @@
+## restart
+[{"created_at":"2026-10-03T20:47:07.584331+00:00","done":false,"id":1,"priority":"haute","title":"Rendre le mini-projet"}]
+
+## down puis up
+ Container tasks-proxy-1  Stopping
+ Container tasks-proxy-1  Stopped
+ Container tasks-proxy-1  Removing
+ Container tasks-proxy-1  Removed
+ Container tasks-web-1  Stopping
+ Container tasks-web-1  Stopped
+ Container tasks-web-1  Removing
+ Container tasks-web-1  Removed
+ Container tasks-db-1  Stopping
+ Container tasks-db-1  Stopped
+ Container tasks-db-1  Removing
+ Container tasks-db-1  Removed
+ Network tasks_default  Removing
+ Network tasks_default  Removed
+local     tasks_db-data
+[{"created_at":"2026-10-03T20:47:07.584331+00:00","done":false,"id":1,"priority":"haute","title":"Rendre le mini-projet"}]
+
+## down -v puis up
+ Container tasks-proxy-1  Stopping
+ Container tasks-proxy-1  Stopped
+ Container tasks-proxy-1  Removing
+ Container tasks-proxy-1  Removed
+ Container tasks-web-1  Stopping
+ Container tasks-web-1  Stopped
+ Container tasks-web-1  Removing
+ Container tasks-web-1  Removed
+ Container tasks-db-1  Stopping
+ Container tasks-db-1  Stopped
+ Container tasks-db-1  Removing
+ Container tasks-db-1  Removed
+ Volume tasks_db-data  Removing
+ Network tasks_default  Removing
+ Volume tasks_db-data  Removed
+ Network tasks_default  Removed
+(volume supprimé)
+[]
+
+## Taille
+WARNING: This output is designed for human readability. For machine-readable output, please use --format.
+IMAGE           ID             DISK USAGE   CONTENT SIZE   EXTRA
+tasks-web:1.0   3eb8bccfcf5d        241MB         52.1MB   U    
+0B	CMD ["gunicorn" "--bind" "0.0.0.0:8000" "--w…
+0B	EXPOSE [8000/tcp]
+0B	USER appuser
+28.7kB	COPY --chown=appuser:appuser . . # buildkit
+22.9MB	RUN /bin/sh -c pip install -r requirements.t…
+12.3kB	COPY requirements.txt . # buildkit
+69.6kB	RUN /bin/sh -c useradd --create-home --uid 1…
+8.19kB	WORKDIR /app
+## DNS
+db -> 172.20.0.2

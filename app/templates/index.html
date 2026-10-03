@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestionnaire de tâches</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+    h1 { margin-bottom: .2rem; }
+    form.add { display: flex; gap: .5rem; margin: 1.5rem 0; }
+    form.add input[type=text] { flex: 1; padding: .5rem; }
+    .filters a { margin-right: .6rem; }
+    .filters a.active { font-weight: bold; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; align-items: center; gap: .6rem; padding: .5rem 0; border-bottom: 1px solid #eee; }
+    li.done .title { text-decoration: line-through; color: #999; }
+    .title { flex: 1; }
+    .badge { font-size: .75rem; padding: .1rem .5rem; border-radius: 1rem; color: #fff; }
+    .haute { background: #c0392b; } .normale { background: #2980b9; } .basse { background: #7f8c8d; }
+    button { cursor: pointer; }
+    form.inline { display: inline; margin: 0; }
+  </style>
+</head>
+<body>
+  <h1>📝 Mes tâches</h1>
+  <small>Flask + PostgreSQL derrière Nginx — conteneurisé avec Docker Compose</small>
+
+  <form class="add" method="post" action="{{ url_for('add_task_form') }}">
+    <input type="text" name="title" placeholder="Nouvelle tâche…" required maxlength="200">
+    <select name="priority">
+      {% for p in priorities %}<option value="{{ p }}" {% if p == 'normale' %}selected{% endif %}>{{ p }}</option>{% endfor %}
+    </select>
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <div class="filters">
+    Statut :
+    <a href="{{ url_for('index', priority=current_priority) }}" class="{{ 'active' if not current_status }}">toutes</a>
+    <a href="{{ url_for('index', priority=current_priority, status='todo') }}" class="{{ 'active' if current_status == 'todo' }}">à faire</a>
+    <a href="{{ url_for('index', priority=current_priority, status='done') }}" class="{{ 'active' if current_status == 'done' }}">faites</a>
+    <br>Priorité :
+    <a href="{{ url_for('index', status=current_status) }}" class="{{ 'active' if not current_priority }}">toutes</a>
+    {% for p in priorities %}
+    <a href="{{ url_for('index', priority=p, status=current_status) }}" class="{{ 'active' if current_priority == p }}">{{ p }}</a>
+    {% endfor %}
+  </div>
+
+  <ul>
+    {% for t in tasks %}
+    <li class="{{ 'done' if t.done }}">
+      <form class="inline" method="post" action="{{ url_for('toggle_task_form', task_id=t.id) }}">
+        <button title="Marquer comme faite / à faire">{{ '✅' if t.done else '⬜' }}</button>
+      </form>
+      <span class="title">{{ t.title }}</span>
+      <span class="badge {{ t.priority }}">{{ t.priority }}</span>
+      <form class="inline" method="post" action="{{ url_for('delete_task_form', task_id=t.id) }}">
+        <button title="Supprimer">🗑</button>
+      </form>
+    </li>
+    {% else %}
+    <li><em>Aucune tâche.</em></li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

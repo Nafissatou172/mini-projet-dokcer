@@ -1,0 +1,16 @@
+# Tout ce qui n'a rien à faire dans l'image
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.log
+.env
+.env.*
+Dockerfile
+.dockerignore
+.git
+.DS_Store
+.vscode/
+.idea/

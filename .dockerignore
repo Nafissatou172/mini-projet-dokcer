@@ -1,0 +1,9 @@
+# Au cas où quelqu'un lance un build depuis la racine
+.git
+.env
+**/__pycache__
+**/*.pyc
+*.md
+.DS_Store
+.vscode/
+.idea/
